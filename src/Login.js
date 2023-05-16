@@ -64,6 +64,7 @@ const Login = () => {
         setLoading(false);
       })
       .catch((err) => {
+        toast.error("Error in verifying OTP!");
         console.log(err);
         setLoading(false);
       });
