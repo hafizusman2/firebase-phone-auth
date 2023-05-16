@@ -23,7 +23,7 @@ const Login = () => {
         {
           size: "invisible",
           callback: (response) => {
-            onSignup();
+            // onSignup();
           },
           "expired-callback": () => {},
         },
@@ -48,8 +48,14 @@ const Login = () => {
         toast.success("OTP sent successfully!");
       })
       .catch((error) => {
-        toast.error("Error in sending OTP!");
-        console.log(error);
+        if (error.code === "auth/quota-exceeded") {
+          toast.error(
+            "Today's OTP send limit reached. Please try again later."
+          );
+        } else {
+          toast.error("Error in sending OTP!");
+          console.error("Error: ", error);
+        }
         setLoading(false);
       });
   };
@@ -59,7 +65,6 @@ const Login = () => {
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log(res);
         setUser(res.user);
         setLoading(false);
       })
