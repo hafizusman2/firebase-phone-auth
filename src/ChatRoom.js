@@ -36,18 +36,15 @@ const ChatRoom = () => {
   };
 
   return (
-    <>
-      <main className="max-w-screen-md mx-auto px-4 py-6">
+    <div className="max-w-screen-md mx-auto">
+      <main className="px-4 py-6 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200">
         {messages &&
           messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
 
         <span ref={dummy}></span>
       </main>
 
-      <form
-        className="max-w-screen-md mx-auto flex items-center"
-        onSubmit={sendMessage}
-      >
+      <form className="flex items-center" onSubmit={sendMessage}>
         <input
           className="flex-grow py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none"
           value={formValue}
@@ -63,7 +60,7 @@ const ChatRoom = () => {
           🕊️
         </button>
       </form>
-    </>
+    </div>
   );
 };
 
