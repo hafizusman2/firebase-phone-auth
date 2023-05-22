@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, firestore } from "./firebase";
+import "./chatRoom.css";
 import {
   collection,
   addDoc,
@@ -22,12 +23,12 @@ const ChatRoom = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = auth.currentUser;
+    const { phoneNumber, photoURL } = auth.currentUser;
 
     await addDoc(messagesRef, {
       text: formValue,
       createdAt: serverTimestamp(),
-      uid,
+      phoneNumber,
       photoURL,
     });
 
@@ -65,10 +66,11 @@ const ChatRoom = () => {
 };
 
 const ChatMessage = (props) => {
-  const { text, uid, photoURL } = props.message;
+  const { text, phoneNumber, photoURL } = props.message;
   console.log(props.message, "message");
 
-  const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+  const messageClass =
+    phoneNumber === auth.currentUser.phoneNumber ? "sent" : "received";
 
   return (
     <>
@@ -81,7 +83,15 @@ const ChatMessage = (props) => {
           }
           alt="profile"
         />
-        <p className="bg-gray-200 py-2 px-4 rounded-lg text-sm max-w-xs">
+        <p className="text-start bg-gray-200 py-2 px-4 rounded-lg text-sm max-w-xs break-words">
+          {messageClass === "received" && (
+            <>
+              <span>{phoneNumber}</span>
+              <br />
+              <br />
+            </>
+          )}
+
           {text}
         </p>
       </div>
